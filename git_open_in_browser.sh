@@ -1,4 +1,5 @@
 #!/bin/bash
+# Contact Michael Collins with questions, comments, changes, etc.
 
 # Get the remote URL
 remote_url=$(git config --get remote.origin.url)
