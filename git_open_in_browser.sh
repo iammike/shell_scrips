@@ -11,13 +11,6 @@ if [[ $remote_url == git@github.com:* ]]; then
 elif [[ $remote_url == https://github.com/* ]]; then
   # HTTPS URL for GitHub
   web_url=$remote_url
-elif [[ $remote_url == https://stash.prod.netflix.net:* ]]; then
-  # HTTPS URL for Stash/Bitbucket Server
-  # Extract the project and repo names from the URL
-  project_repo=$(echo $remote_url | sed -e 's|https://stash.prod.netflix.net:7006/scm/||')
-  project=$(echo $project_repo | cut -d'/' -f1 | tr '[:lower:]' '[:upper:]')
-  repo=$(echo $project_repo | cut -d'/' -f2 | sed 's|\.git$||')
-  web_url="https://stash.corp.netflix.com/projects/$project/repos/$repo/browse"
 else
   echo "Unsupported remote URL format: $remote_url"
   exit 1
