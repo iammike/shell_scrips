@@ -8,6 +8,9 @@ fi
 
 directory="$1"
 
+echo "----------------------------------------------------------------"
+
+
 # Find all .m files and store in a list
 files=()
 while IFS= read -r -d $'\0' file; do
@@ -23,9 +26,14 @@ fi
 # Create a temporary file to store results
 tmpfile=$(mktemp)
 
+# Initialize total line count
+total_lines=0
+
 # Iterate over files, count lines and store in the temporary file
 for file in "${files[@]}"; do
   line_count=$(wc -l < "$file")
+  # Add to total line count
+  total_lines=$((total_lines + line_count))
   # Store the relative path and line count in the temporary file
   relative_path="${file#$directory/}"
   echo "$line_count $relative_path" >> "$tmpfile"
@@ -33,6 +41,12 @@ done
 
 # Sort the temporary file by line count in descending order and print
 sort -nr "$tmpfile"
+
+# Print delimiter line
+echo "----------------------------------------------------------------"
+
+# Print the total number of lines formatted like the others
+printf "%8d TOTAL\n" "$total_lines"
 
 # Clean up the temporary file
 rm "$tmpfile"
